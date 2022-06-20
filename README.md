@@ -2,6 +2,7 @@
 Scripts para resolver erros humanos.
 
 links.js
+
 O arquivo links fornece um script para resolver o problema de adicionar o redirect do plano ao invés de um link interno.
 Também resolve o problema do sistema do liferay que gera um id único para o portlet de cadastro da promoção,
 devido a mudança de ambiente... assim não importa qual seja o id único, sempre será o correto...
