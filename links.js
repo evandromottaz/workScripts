@@ -2,8 +2,8 @@ const replaceWrongHiperlinks = () => {
     const macroID = 'p_p_id_smilesmembershipclubjoinmacro_WAR_smilesmembershipsportlet_';
     const optinID = 'p_p_id_promotionoptinportlet_WAR_smilesaccountportlet'
     
-    const macro = document?.getElementById(macroID)
-    const KV = document?.querySelector('#atomoKV');
+    const macro = document.getElementById(macroID)
+    const KV = document.querySelector('#atomoKV');
     const tituloApoio = KV?.parentElement.querySelector('.atomoTituloLP .row p');
 
     function startObserver() {
