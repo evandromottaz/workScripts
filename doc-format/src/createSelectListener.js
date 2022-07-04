@@ -1,20 +1,8 @@
 export function createSelectListener(area) {
     const textArea = document.querySelector(area)
-
-    const observers = []
-
-    function subscribe(observerFunction) {
-        observers.push(observerFunction)
-    }
-
-    function alertObservers(selection) {
-        console.log(`Alert ${observers.length} observers`)
-        observers.forEach(observer => observer(selection))
-    }
-
     textArea.addEventListener('mouseup', handleSelect)
 
-    function handleSelect(e) {
+    function handleSelect() {
         const selectedText = getSelectText()
         alertObservers(selectedText)
     }
@@ -27,6 +15,17 @@ export function createSelectListener(area) {
         }
 
         return '';
+    }
+
+    function alertObservers(selection) {
+        console.log(`Alert ${observers.length} observers`)
+        observers.forEach(observer => observer(selection))
+    }
+
+    const observers = []
+
+    function subscribe(observerFunction) {
+        observers.push(observerFunction)
     }
 
     return {

@@ -1,2 +1,2 @@
-import './src/FormatTextArea.js'
+import './src/formatTextArea.js'
 
