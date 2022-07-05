@@ -3,21 +3,18 @@ import { createInputListener } from "./createInputListener.js"
 const textArea = document.querySelector('[data-js="textArea"]')
 
 function cleanTextAreaWithRegexQueries() {
-    const getParagraphsTagRegex = /<(\/|p)(\s|p)([^>]+)?>/gi
-    const getUnderlinesTagRegex = /<(\/|u)u?>/g
+    const paragraphsTagRegex = /<(\/|p)(\s|p)([^>]+)?>/gi
+    const underlinesTagRegex = /<(\/|u)u?>/g
     const anchorsTagRegex = /<(a|\/)(a|\s)([^>]+)?>/g
-    const fontsFaceTagRegex = /<(?:font face)([^>]+)>/g
-    const fontsColorTagRegex = /<(?:font)[^>]+>/g
+    const fontsTagRegex = /<(?:font)([^>]+)>/g
+    const spansTagRegex = /<(?:span)[^>]+>/g
 
-    textArea.innerHTML = textArea.innerHTML.replace(getParagraphsTagRegex, '')
-    textArea.innerHTML = textArea.innerHTML.replace(getUnderlinesTagRegex, '')
+    textArea.innerHTML = textArea.innerHTML.replace(paragraphsTagRegex, '')
+    textArea.innerHTML = textArea.innerHTML.replace(underlinesTagRegex, '')
     textArea.innerHTML = textArea.innerHTML.replace(anchorsTagRegex, '')
-    textArea.innerHTML = textArea.innerHTML.replace(fontsFaceTagRegex, '')
-    textArea.innerHTML = textArea.innerHTML.replace(fontsColorTagRegex, '')
-    
+    textArea.innerHTML = textArea.innerHTML.replace(fontsTagRegex, '')
+    textArea.innerHTML = textArea.innerHTML.replace(spansTagRegex, '')
 }
-
-
 
 function setColorsOnBoldsTag() {
     function cleanBoldTextArray(text) {
@@ -31,36 +28,33 @@ function setColorsOnBoldsTag() {
     }
 
     const guideColorsKeys = Object.keys(guideColors) 
-    const boldTags = textArea.querySelectorAll('b')
+    const strongsTag = textArea.querySelectorAll('strong')
 
-    boldTags.forEach(bold => {
-        const cleanLowerArrayText = cleanBoldTextArray(bold)
+    strongsTag.forEach(strong => {
+        const cleanLowerArrayText = cleanBoldTextArray(strong)
 
         const colorKey = guideColorsKeys.find(color => {
-            const firstWordArray = color.split(" ")
-            return firstWordArray[0].indexOf(cleanLowerArrayText[0]) > -1
+            return color.indexOf(cleanLowerArrayText[0]) > -1
         })
 
-        bold.style.color = guideColors[colorKey]
+        strong.style.color = guideColors[colorKey]
     })
 }
 
 function copyFromTextAreaToCodeArea() {
     const codeArea = document.querySelector('[data-js="code"]')
+    textArea.innerHTML = textArea.innerHTML.split('\n').join(' ')
+    textArea.innerHTML = textArea.innerHTML.split('\n').join(' ')
     codeArea.innerHTML = textArea.innerHTML
 }
 
 function changeBoldsTagToStrongsTag() {
-    textArea.innerHTML = textArea.innerHTML.replace(/b(\s)/g, 'strong')
-}
-
-function putBreakLinesInTheFinalCharacter() {
-    textArea.innerHTML = textArea.innerHTML.replace(/(\n$)/gm, '\n<br /><br />\n')
+    textArea.innerHTML = textArea.innerHTML.replace(/b>/g, 'strong>')
 }
 
 const inputListener = createInputListener(textArea)
 inputListener.subscribe(cleanTextAreaWithRegexQueries)
+inputListener.subscribe(changeBoldsTagToStrongsTag)
 inputListener.subscribe(setColorsOnBoldsTag)
-// inputListener.subscribe(putBreakLinesInTheFinalCharacter)
 inputListener.subscribe(copyFromTextAreaToCodeArea)
 
