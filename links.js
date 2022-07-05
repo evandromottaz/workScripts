@@ -19,12 +19,22 @@ const replaceWrongHiperlinks = () => {
         function fixLink(portletID) {
             const searchWrongLink = portletID.includes(macroID) ? 'clube' : portletID;
 
+            function setHrefWithPortletIDAndRemoveTargetBlank(hiperlink) {
+                hiperlink.setAttribute('href', `#${portletID}`)
+                hiperlink.removeAttribute('target')
+            }
+
+            function isValidLink(link) {
+                const linkWithoutHash = link.getAttribute('href').replace('#','')
+
+                return link.getAttribute('href').indexOf(searchWrongLink) > -1 || portletID.indexOf(linkWithoutHash) > -1
+            }
+
             const links = tituloApoio?.querySelectorAll('a');
             links.forEach(link => {
-                if(link.href.includes(searchWrongLink)) {
-                    link.setAttribute('href', `#${portletID}`)
-                    link.removeAttribute('target')
-                }
+                if(isValidLink(link)) {
+                    setHrefWithPortletIDAndRemoveTargetBlank(link)
+                } 
             })
         }
 
